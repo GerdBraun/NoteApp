@@ -1,6 +1,6 @@
 const notesReducer = (state, action) => {
   switch (action.type) {
-    case 'TODO_ADDED': {
+    case 'NOTE_ADDED': {
       return {
           ...state,
           notes: [
@@ -16,7 +16,7 @@ const notesReducer = (state, action) => {
           filter: action.payload,
       };
   }
-  case 'TODO_TOGGLED': {
+  case 'NOTE_TOGGLED': {
       return {
           ...state,
           notes: state.notes.map((note) => {

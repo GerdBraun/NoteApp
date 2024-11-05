@@ -9,7 +9,7 @@ const AddNote = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!newNote) return;
-        notesDispatch({ type: 'TODO_ADDED', payload: newNote });
+        notesDispatch({ type: 'NOTE_ADDED', payload: newNote });
         setNewNote('');
     };
 

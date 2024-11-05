@@ -4,7 +4,7 @@ const NoteItem = ({ note }) => {
     const { notesDispatch } = useNotes();
 
     const toggleNote = (id) => {
-        notesDispatch({ type: 'TODO_TOGGLED', payload: id });
+        notesDispatch({ type: 'NOTE_TOGGLED', payload: id });
     };
     return (
         <li className='flex items-center mb-2'>
