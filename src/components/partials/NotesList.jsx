@@ -1,8 +1,25 @@
+import { useNotes } from '../../context/notesContext';
+import NoteItem from './NoteItem';
 
 const NotesList = () => {
-  return (
-    <div>NotesList</div>
-  )
-}
+    const {
+        notesState: { notes, filter },
+    } = useNotes();
 
-export default NotesList
+    const filteredNotes = notes.filter((note) => {
+        if (filter === 'all') return true;
+        if (filter === 'completed' && note.completed) return true;
+        if (filter === 'active' && !note.completed) return true;
+        return false;
+    });
+
+    return (
+        <ul>
+            {filteredNotes.map((note) => (
+                <NoteItem key={note.id} note={note} />
+            ))}
+        </ul>
+    );
+};
+
+export default NotesList;
