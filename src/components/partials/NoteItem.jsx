@@ -15,7 +15,7 @@ const NoteItem = ({ note }) => {
                 onChange={() => toggleNote(note.id)}
                 className='mr-2'
             />
-            {note.text}
+            {note.title}
             </label>
         </li>
     );
