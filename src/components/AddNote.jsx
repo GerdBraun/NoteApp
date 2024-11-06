@@ -9,7 +9,7 @@ const AddNote = () => {
   const [errors, setErrors] = useState({});
 
   const [note, setNote] = useState({
-    id:"",
+    id: "",
     title: "",
     image: "",
     description: "",
@@ -31,11 +31,9 @@ const AddNote = () => {
     e.preventDefault();
     if (!validateForm()) return;
 
-   //if (note) return;
     notesDispatch({ type: "NOTE_ADDED", payload: note });
-    setNewNote("");
 
-    // navigate("/notes");
+    navigate("/");
   };
 
   const validateForm = () => {

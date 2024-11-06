@@ -8,7 +8,6 @@ const NoteItem = ({ note }) => {
     };
     return (
         <li className='flex items-center mb-2'>
-            <label className={note.completed ? 'line-through':''}>
             <input
                 type='checkbox'
                 checked={note.completed}
@@ -16,7 +15,6 @@ const NoteItem = ({ note }) => {
                 className='mr-2'
             />
             {note.title}
-            </label>
         </li>
     );
 };

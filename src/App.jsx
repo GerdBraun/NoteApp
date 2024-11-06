@@ -7,17 +7,14 @@ import {
 import Layout from "./components/Layout";
 import NotesList from "./components/partials/NotesList";
 import CategoryList from "./components/partials/CategoryList";
-import Welcome from "./components/partials/Welcome";
 import FilterComponent from "./components/FilterComponent";
 import AddNote from "./components/AddNote";
-import DataFetchingUseReducer from "./context/DataFetchingUseReducer";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route index element={<Welcome />} />
       <Route
-        path="/notes"
+        index
         element={
           <>
             {/* <DataFetchingUseReducer /> */}
