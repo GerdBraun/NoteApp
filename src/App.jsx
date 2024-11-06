@@ -10,6 +10,7 @@ import CategoryList from "./components/partials/CategoryList";
 import Welcome from "./components/partials/Welcome";
 import FilterComponent from "./components/FilterComponent";
 import AddNote from "./components/AddNote";
+import DataFetchingUseReducer from "./context/DataFetchingUseReducer";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,12 +20,14 @@ const router = createBrowserRouter(
         path="/notes"
         element={
           <>
-            <AddNote />
+            {/* <DataFetchingUseReducer /> */}
+            {/* <AddNote /> */}
             <FilterComponent />
             <NotesList />
           </>
         }
       />
+      <Route path="/notes/add" element={<AddNote />} />
       <Route path="/categories" element={<CategoryList />} />
       <Route path="/login" element={<></>} />
       <Route path="/signup" element={<></>} />

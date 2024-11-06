@@ -1,10 +1,11 @@
 const notesReducer = (state, action) => {
   switch (action.type) {
     case 'NOTE_ADDED': {
+      console.log({ ...action.payload, id: Date.now(), completed: false })
       return {
           ...state,
           notes: [
-              { id: Date.now(), text: action.payload, completed: false },
+              { ...action.payload, id: Date.now(), completed: false },
               ...state.notes,
           ],
       };
