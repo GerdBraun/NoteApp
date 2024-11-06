@@ -7,7 +7,7 @@ const Layout = () => {
   return (
     <NotesContextProvider>
       <Header />
-      <main className="p-4 mx-auto max-w-screen-xl">
+      <main>
         <Outlet />
       </main>
       <Footer />
