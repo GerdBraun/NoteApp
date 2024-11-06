@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="navbar bg-base-100">
+    <header className="navbar bg-base-100 shadow-lg">
       <div className="flex-1">
         <NavLink to="/" className="btn btn-ghost text-xl">NotesApp</NavLink>
       </div>

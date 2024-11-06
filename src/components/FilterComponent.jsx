@@ -1,46 +1,38 @@
-import { useNotes } from '../context/notesContext';
+import { useEffect, useState } from "react";
+import { useNotes } from "../context/notesContext";
 
 const FilterComponent = () => {
-    const { notesState, notesDispatch } = useNotes();
-    const { filter } = notesState;
-    const setFilterInView = (filter) => {
-        notesDispatch({ type: 'FILTER_SET', payload: filter });
-    };
+  const { notesState, notesDispatch } = useNotes();
+  const { filter } = notesState;
+  const setFilterInView = (filter) => {
+    notesDispatch({ type: "FILTER_SET", payload: filter });
+  };
 
-    return (
-        <div className='mb-4 flex space-x-2'>
-            <button
-                onClick={() => setFilterInView('all')}
-                className={`bg-gray-200 px-3 py-1 rounded ${
-                    filter === 'all'
-                        ? 'border-solid border-4 border-blue-500'
-                        : ''
-                }`}
-            >
-                All
-            </button>
-            <button
-                onClick={() => setFilterInView('active')}
-                className={`bg-gray-200 px-3 py-1 rounded ${
-                    filter === 'active'
-                        ? 'border-solid border-4 border-blue-500'
-                        : ''
-                }`}
-            >
-                Active
-            </button>
-            <button
-                onClick={() => setFilterInView('completed')}
-                className={`bg-gray-200 px-3 py-1 rounded ${
-                    filter === 'completed'
-                        ? 'border-solid border-4 border-blue-500'
-                        : ''
-                }`}
-            >
-                Completed
-            </button>
-        </div>
-    );
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  useEffect(() => {
+    setCategoryOptions(notesState.categoryOptions);
+  }, [notesState.categoryOptions]);
+
+  return (
+    <div className="mb-4 p-4 flex space-x-2 shadow-lg">
+         <button
+          key={0}
+          onClick={() => setFilterInView('all')}
+          className={`btn ${filter === 'all' ? "btn-active" : ""}`}
+        >
+          All
+        </button>
+     {categoryOptions && categoryOptions.map((category) => (
+        <button
+          key={category.value}
+          onClick={() => setFilterInView(category.value)}
+          className={`btn ${filter === category.value ? "btn-active" : ""}`}
+        >
+          {category.label}
+        </button>
+      ))}
+    </div>
+  );
 };
 
 export default FilterComponent;

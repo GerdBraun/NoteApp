@@ -10,8 +10,8 @@ const NoteItem = ({ note }) => {
 
   return (
     <li className="flex items-center mb-2">
-      <div className="card bg-base-100 w-full shadow-xl">
-        <figure>
+      <div className="card bg-base-100 w-full shadow-xl h-full">
+        <figure className="h-52">
           <img
             src={note.image || "https://placehold.co/600x400"}
             alt={note.title}
@@ -20,29 +20,30 @@ const NoteItem = ({ note }) => {
         <div className="card-body">
           <h2 className="card-title">
             {note.title}
-            <div className="badge badge-secondary">NEW</div>
+            {/* <div className="badge badge-secondary">NEW</div> */}
           </h2>
           {note.date && (
             <p className="text-sm">
-              Date: {new Date(note.date).toLocaleDateString()}
+              {new Date(note.date).toLocaleDateString()}
             </p>
           )}
           <p>{note.description}</p>
           <div className="card-actions">
-            <input
+            {/* <input
               type="checkbox"
               checked={note.completed}
               onChange={() => toggleNote(note.id)}
               className="mr-2"
-            />
-            {note.categories.map((cat) => (
-              <div key={cat.value} className="badge badge-outline">
-                {cat.label}
-              </div>
-            ))}
+            /> */}
+            {note.categories &&
+              note.categories.map((cat) => (
+                <div key={cat.value} className="badge badge-outline">
+                  {cat.label}
+                </div>
+              ))}
           </div>
           <div className="card-actions justify-end">
-            <Link className="btn btn-primary" to={`/notes/${note.id}`}>
+            <Link className="btn" to={`/notes/${note.id}`}>
               view
             </Link>
           </div>

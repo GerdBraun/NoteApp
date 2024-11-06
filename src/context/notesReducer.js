@@ -17,6 +17,7 @@ const notesReducer = (state, action) => {
           filter: action.payload,
       };
   }
+
   case 'NOTE_TOGGLED': {
       return {
           ...state,
