@@ -11,6 +11,7 @@ const FilterComponent = () => {
   const [categoryOptions, setCategoryOptions] = useState([]);
   useEffect(() => {
     setCategoryOptions(notesState.categoryOptions);
+    console.log('FilterCommponent',notesState.categoryOptions)
   }, [notesState.categoryOptions]);
 
   return (
@@ -24,11 +25,11 @@ const FilterComponent = () => {
         </button>
      {categoryOptions && categoryOptions.map((category) => (
         <button
-          key={category.value}
-          onClick={() => setFilterInView(category.value)}
+          key={category.id}
+          onClick={() => setFilterInView(category.id)}
           className={`btn ${filter === category.value ? "btn-active" : ""}`}
         >
-          {category.label}
+          {category.title}
         </button>
       ))}
     </div>

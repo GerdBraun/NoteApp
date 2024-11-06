@@ -3,21 +3,25 @@ import notesReducer from "./notesReducer";
 import { NotesContext } from "./notesContext";
 
 const categoryOptions = [
-  { value: "category1", label: "category 1" },
-  { value: "category2", label: "category 2" },
-  { value: "category3", label: "category 3" },
+  { value: "1", label: "category 1" },
+  { value: "2", label: "category 2" },
 ];
 
 const NotesContextProvider = ({ children }) => {
   const [notesState, notesDispatch] = useReducer(notesReducer, {
-    notes: JSON.parse(localStorage.getItem("notes")) || [],
+    notes: [],
     filter: "all",
-    categoryOptions: categoryOptions,
+    categoryOptions: null,
     user: {},
   });
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notesState.notes));
   }, [notesState.notes]);
+
+
+  console.log(JSON.stringify([1,2]));
+
+
 
   const [error, setError] = useState(null);
   useEffect(() => {
