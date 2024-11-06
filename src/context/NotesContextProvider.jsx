@@ -2,17 +2,12 @@ import { useEffect, useReducer, useState } from "react";
 import notesReducer from "./notesReducer";
 import { NotesContext } from "./notesContext";
 
-const categoryOptions = [
-  { value: "1", label: "category 1" },
-  { value: "2", label: "category 2" },
-];
-
 const NotesContextProvider = ({ children }) => {
   const [notesState, notesDispatch] = useReducer(notesReducer, {
     notes: [],
     filter: "all",
     categoryOptions: null,
-    user: {},
+    userData: {},
   });
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notesState.notes));

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNotes } from "../context/notesContext";
+import { useNotes } from "../../context/notesContext";
 
 const FilterComponent = () => {
   const { notesState, notesDispatch } = useNotes();

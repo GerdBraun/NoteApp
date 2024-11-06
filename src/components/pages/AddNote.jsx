@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNotes } from "../context/notesContext";
+import { useNotes } from "../../context/notesContext";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 

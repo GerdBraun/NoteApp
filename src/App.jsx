@@ -5,10 +5,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Layout from "./components/Layout";
-import NotesList from "./components/partials/NotesList";
-import CategoryList from "./components/partials/CategoryList";
-import FilterComponent from "./components/FilterComponent";
-import AddNote from "./components/AddNote";
+import NotesList from "./components/pages/NotesList";
+import CategoryList from "./components/pages/CategoryList";
+import FilterComponent from "./components/partials/FilterComponent";
+import AddNote from "./components/pages/AddNote";
+import LogIn from "./components/pages/LogIn";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,7 +28,7 @@ const router = createBrowserRouter(
       <Route path="/notes/:id" element={<AddNote />} />
       <Route path="/notes/add" element={<AddNote />} />
       <Route path="/categories" element={<CategoryList />} />
-      <Route path="/login" element={<></>} />
+      <Route path="/login" element={<LogIn />} />
       <Route path="/signup" element={<></>} />
     </Route>
   )

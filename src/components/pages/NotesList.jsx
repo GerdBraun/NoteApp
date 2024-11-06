@@ -1,5 +1,5 @@
 import { useNotes } from "../../context/notesContext";
-import NoteItem from "./NoteItem";
+import NoteItem from "../partials/NoteItem";
 
 const NotesList = () => {
   const {
