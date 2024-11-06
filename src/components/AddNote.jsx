@@ -44,7 +44,7 @@ const AddNote = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const colourOptions = [
+  const categoryOptions = [
     { value: "category1", label: "category 1" },
     { value: "category2", label: "category 2" },
     { value: "category3", label: "category 3" },
@@ -132,7 +132,7 @@ const AddNote = () => {
           <Select
             isMulti
             name="categories"
-            options={colourOptions}
+            options={categoryOptions}
             className="basic-multi-select"
             classNamePrefix="select"
             onChange={handleMultiChange}

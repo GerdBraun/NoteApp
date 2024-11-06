@@ -11,7 +11,7 @@ const NotesList = () => {
         if (filter === 'completed' && note.completed) return true;
         if (filter === 'active' && !note.completed) return true;
         return false;
-    });
+    });    
 
     return (
         <ul className='grid grid-cols-3 gap-4'>

@@ -8,13 +8,12 @@ const NoteItem = ({ note }) => {
     notesDispatch({ type: "NOTE_TOGGLED", payload: id });
   };
 
-
   return (
     <li className="flex items-center mb-2">
       <div className="card bg-base-100 w-full shadow-xl">
         <figure>
           <img
-            src={note.image || 'https://placehold.co/600x400'}
+            src={note.image || "https://placehold.co/600x400"}
             alt={note.title}
           />
         </figure>
@@ -23,6 +22,11 @@ const NoteItem = ({ note }) => {
             {note.title}
             <div className="badge badge-secondary">NEW</div>
           </h2>
+          {note.date && (
+            <p className="text-sm">
+              Date: {new Date(note.date).toLocaleDateString()}
+            </p>
+          )}
           <p>{note.description}</p>
           <div className="card-actions">
             <input
@@ -38,7 +42,9 @@ const NoteItem = ({ note }) => {
             ))}
           </div>
           <div className="card-actions justify-end">
-            <Link className="btn btn-primary" to={`/notes/${note.id}`}>view</Link>
+            <Link className="btn btn-primary" to={`/notes/${note.id}`}>
+              view
+            </Link>
           </div>
         </div>
       </div>
