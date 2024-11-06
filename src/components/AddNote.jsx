@@ -80,6 +80,7 @@ const AddNote = () => {
         <div className="form-control">
           <label className="label">Title</label>
           <input
+            type="text"
             className="input input-bordered"
             name="title"
             value={note.title}
@@ -91,6 +92,7 @@ const AddNote = () => {
         <div className="form-control">
           <label className="label">Image</label>
           <input
+            type="url"
             className="input input-bordered"
             name="image"
             value={note.image}
