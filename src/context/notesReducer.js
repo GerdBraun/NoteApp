@@ -1,17 +1,32 @@
 const notesReducer = (state, action) => {
   switch (action.type) {
-    case 'NOTE_ADDED': {
-      console.log({ ...action.payload, id: Date.now(), completed: false })
+    case 'NOTES_LOADED': {
+      console.log('NOTES_LOADED',action.payload);
       return {
           ...state,
-          notes: [
-              { ...action.payload, id: Date.now(), completed: false },
-              ...state.notes,
-          ],
+          notes: action.payload
       };
   }
 
-  case 'FILTER_SET': {
+    case 'CATEGORIES_LOADED': {
+      console.log('CATEGORIES_LOADED',action.payload);
+      return {
+          ...state,
+          categories: action.payload
+      };
+  }
+
+  case 'NOTE_ADDED': {
+    return {
+        ...state,
+        notes: [
+            { ...action.payload, id: Date.now(), completed: false },
+            ...state.notes,
+        ],
+    };
+}
+
+case 'FILTER_SET': {
       return {
           ...state,
           filter: action.payload,

@@ -9,7 +9,7 @@ const NotesList = () => {
     const filteredNotes = notes.filter((note) => {
         if (filter === 'all') return true;
         if(!note.categories.length) return false;
-        return note.categories.find((cat) => cat.value === filter);
+        //return note.categories.find((cat) => cat.value === filter);
     });    
 
     return (

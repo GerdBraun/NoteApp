@@ -35,12 +35,12 @@ const NoteItem = ({ note }) => {
               onChange={() => toggleNote(note.id)}
               className="mr-2"
             /> */}
-            {note.categories &&
+            {/* {note.categories &&
               note.categories.map((cat) => (
                 <div key={cat.value} className="badge badge-outline">
                   {cat.label}
                 </div>
-              ))}
+              ))} */}
           </div>
           <div className="card-actions justify-end">
             <Link className="btn" to={`/notes/${note.id}`}>
