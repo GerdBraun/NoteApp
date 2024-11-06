@@ -11,7 +11,6 @@ const FilterComponent = () => {
   const [categoryOptions, setCategoryOptions] = useState([]);
   useEffect(() => {
     setCategoryOptions(notesState.categoryOptions);
-    console.log('FilterCommponent',notesState.categoryOptions)
   }, [notesState.categoryOptions]);
 
   return (

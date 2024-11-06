@@ -1,8 +1,6 @@
 const notesReducer = (state, action) => {
   switch (action.type) {
     case 'NOTES_LOADED': {
-      //action.payload.categories = JSON.parse(action.payload.categories);
-      console.log('NOTES_LOADED',action.payload);
       const notes = action.payload.map(note => ({
         ...note,
         categories: JSON.parse(note.categories)
@@ -14,7 +12,6 @@ const notesReducer = (state, action) => {
   }
 
     case 'CATEGORIES_LOADED': {
-      console.log('CATEGORIES_LOADED',action.payload);
       return {
           ...state,
           categoryOptions: action.payload

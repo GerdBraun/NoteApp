@@ -44,12 +44,10 @@ const AddNote = () => {
     if (!validateForm()) return;
 
     const categoriesToSave = note.categories.map(cat => cat.id);
-    
     const noteToSave = {...note,
       categories: JSON.stringify(categoriesToSave)
     };
-    notesDispatch({ type: "NOTE_ADDED", payload: note });
-    console.log('noteToSave',noteToSave)
+    notesDispatch({ type: "NOTE_ADDED", payload: noteToSave });
 
     navigate("/");
   };

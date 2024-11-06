@@ -18,57 +18,49 @@ const NotesContextProvider = ({ children }) => {
     localStorage.setItem("notes", JSON.stringify(notesState.notes));
   }, [notesState.notes]);
 
-
-  console.log(JSON.stringify([1,2]));
-
-
-
   const [error, setError] = useState(null);
   useEffect(() => {
     // fetch notes
-    fetch('http://localhost:3001/api/notes', {
+    fetch("http://localhost:3001/api/notes", {
       headers: {
-        'accept': 'application/json',
+        accept: "application/json",
         // 'Authorization': `Bearer ${token}`
-      }
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.results && Array.isArray(data.results)) {
           notesDispatch({ type: "NOTES_LOADED", payload: data.results });
-          console.log(data.results)
         } else {
           console.error("Unexpected data format:", data);
           setError("Unexpected data format");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching data:", error);
         setError("Failed to fetch data");
       });
 
-      // fetch categories
-      fetch('http://localhost:3001/api/categs', {
-        headers: {
-          'accept': 'application/json',
-          // 'Authorization': `Bearer ${token}`
+    // fetch categories
+    fetch("http://localhost:3001/api/categs", {
+      headers: {
+        accept: "application/json",
+        // 'Authorization': `Bearer ${token}`
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.results && Array.isArray(data.results)) {
+          notesDispatch({ type: "CATEGORIES_LOADED", payload: data.results });
+        } else {
+          console.error("Unexpected data format:", data);
+          setError("Unexpected data format");
         }
       })
-        .then(response => response.json())
-        .then(data => {
-          if (data.results && Array.isArray(data.results)) {
-            notesDispatch({ type: "CATEGORIES_LOADED", payload: data.results });
-            console.log(data.results)
-          } else {
-            console.error("Unexpected data format:", data);
-            setError("Unexpected data format");
-          }
-        })
-        .catch(error => {
-          console.error("Error fetching data:", error);
-          setError("Failed to fetch data");
-        });
-  
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Failed to fetch data");
+      });
   }, []);
 
   return (
