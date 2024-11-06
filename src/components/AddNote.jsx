@@ -9,8 +9,14 @@ const AddNote = () => {
   const [categoryOptions, setCategoryOptions] = useState([]);
 
   useEffect(() => {
-    setCategoryOptions(notesState.categoryOptions);
-    console.log(notesState.categoryOptions)
+    const optionsTranslated = notesState.categoryOptions.map(option => (
+      {
+        ...option,
+        value: option.id,
+        label:option.title
+      }
+    ));
+    setCategoryOptions(optionsTranslated);
   }, [notesState.categoryOptions]);
 
 
@@ -37,7 +43,11 @@ const AddNote = () => {
     e.preventDefault();
     if (!validateForm()) return;
 
-    notesDispatch({ type: "NOTE_ADDED", payload: note });
+    const categoriesToSave = note.categories.map(cat => cat.id);
+    const noteToSave = {...note,
+      categories: JSON.stringify(categoriesToSave)
+    };
+    notesDispatch({ type: "NOTE_ADDED", payload: noteToSave });
 
     navigate("/");
   };

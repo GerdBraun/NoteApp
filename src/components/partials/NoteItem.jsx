@@ -37,8 +37,8 @@ const NoteItem = ({ note }) => {
             /> */}
             {note.categories &&
               note.categories.map((cat) => (
-                <div key={cat.value} className="badge badge-outline">
-                  {cat.label}
+                <div key={cat} className="badge badge-outline">
+                  cat-id: {cat}
                 </div>
               ))}
           </div>
