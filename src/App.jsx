@@ -24,6 +24,7 @@ const router = createBrowserRouter(
           </>
         }
       />
+      <Route path="/notes/:id" element={<AddNote />} />
       <Route path="/notes/add" element={<AddNote />} />
       <Route path="/categories" element={<CategoryList />} />
       <Route path="/login" element={<></>} />

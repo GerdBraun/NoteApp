@@ -14,7 +14,7 @@ const NotesList = () => {
     });
 
     return (
-        <ul>
+        <ul className='grid grid-cols-3 gap-4'>
             {filteredNotes.map((note) => (
                 <NoteItem key={note.id} note={note} />
             ))}
