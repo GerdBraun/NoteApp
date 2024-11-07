@@ -1,10 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useNotes } from "../../context/notesContext";
 import { useState } from "react";
 
 const SignUp = () => {
-  const { notesDispatch } = useNotes();
   const navigate = useNavigate();
 
   const [formState, setFormState] = useState({

@@ -31,7 +31,7 @@ const FilterComponent = () => {
       <button
         key={0}
         onClick={() => setFilterInView("all")}
-        className={`btn ${filter === "all" ? "btn-active" : ""}`}
+        className={`btn btn-sm ${filter === "all" ? "btn-active" : ""}`}
       >
         All
       </button>
@@ -40,7 +40,7 @@ const FilterComponent = () => {
           <button
             key={category.id}
             onClick={() => setFilterInView(category.id)}
-            className={`btn ${filter === category.id ? "btn-active" : ""}`}
+            className={`btn btn-sm ${filter === category.id ? "btn-active" : ""}`}
           >
             {category.title}
           </button>

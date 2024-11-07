@@ -47,7 +47,7 @@ const NoteSingle = () => {
         .then((response) => {
           if (!response.ok) {
             return response.json().then((errorData) => {
-              toast.error("Failed to delete note");
+              toast.error(`Failed to delete note: ${errorData}`);
             });
           }
           toast.success("Note deleted successfully");
