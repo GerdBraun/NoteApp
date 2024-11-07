@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
-import { useNotes } from "../context/notesContext";
-import { useNavigate } from "react-router-dom";
+import { useNotes } from "../../context/notesContext";
+import { Navigate, useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { toast } from "react-toastify";
 
 const AddNote = () => {
-  const { notesState, notesDispatch } = useNotes();
+  const { notesState} = useNotes();
   const [errors, setErrors] = useState({});
   const [categoryOptions, setCategoryOptions] = useState([]);
 
   useEffect(() => {
-    const optionsTranslated = notesState.categoryOptions.map(option => (
-      {
-        ...option,
-        value: option.id,
-        label:option.title
-      }
-    ));
+    if(!notesState.categoryOptions) return;
+    const optionsTranslated = notesState.categoryOptions.map((option) => ({
+      ...option,
+      value: option.id,
+      label: option.title,
+    }));
     setCategoryOptions(optionsTranslated);
   }, [notesState.categoryOptions]);
 
-
   const [note, setNote] = useState({
     id: "",
+    urgency: "",
     title: "",
     image: "",
     description: "",
@@ -41,15 +41,49 @@ const AddNote = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
 
-    const categoriesToSave = note.categories.map(cat => cat.id);
-    const noteToSave = {...note,
-      categories: JSON.stringify(categoriesToSave)
-    };
-    notesDispatch({ type: "NOTE_ADDED", payload: noteToSave });
+    if (!validateForm()) {
+      toast.error("Please check form!");
+      return;
+    }
 
-    navigate("/");
+    const categoriesToSave = note.categories
+      ? JSON.stringify(note.categories.map((cat) => cat.id))
+      : "";
+
+      
+    //notesDispatch({ type: "NOTE_ADDED", payload: noteToSave });
+
+    const { title, urgency, image, description, date } = note;
+
+    const urgencyNumber = urgency ? parseInt(urgency) : 0;
+
+    fetch("http://localhost:3001/api/notes", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${notesState.userData.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        urgency: urgencyNumber,
+        image,
+        description,
+        date,
+        categories: categoriesToSave,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          toast.error(`API error: "${data.error}"`);
+          return;
+        }
+        toast.success(`Note created "${note.title}"`);
+        navigate("/");
+      })
+      .catch((error) => console.error("Error creating event:", error));
   };
 
   const validateForm = () => {
@@ -59,6 +93,10 @@ const AddNote = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
+  if(!notesState.userData.token){
+    return <Navigate to="/login" />
+  }
 
   return (
     <>
@@ -78,6 +116,24 @@ const AddNote = () => {
             onChange={handleChange}
           />
           {errors.title && <p className="text-red-500">{errors.title}</p>}
+        </div>
+
+        <div className="form-control">
+          <label className="label">Urgency</label>
+          <select
+            name="urgency"
+            className="select select-bordered w-full"
+            onChange={handleChange}
+            value={note.urgency}
+          >
+            <option>0</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+          {errors.image && <p className="text-red-500">{errors.image}</p>}
         </div>
 
         <div className="form-control">
