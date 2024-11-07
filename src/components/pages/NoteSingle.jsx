@@ -73,10 +73,10 @@ const NoteSingle = () => {
   return (
     <div className="p-4 mx-auto max-w-screen-xl">
       <div className="card bg-base-100 w-full shadow-xl h-full">
-        <figure className="h-full">
+        <figure className="w-full aspect-video">
           <img
             className="w-full"
-            src={note.image || "https://placehold.co/600x400"}
+            src={note.image || "https://placehold.co/800x450"}
             alt={note.title}
           />
         </figure>
@@ -94,7 +94,6 @@ const NoteSingle = () => {
               {new Date(note.date).toLocaleDateString()}
             </p>
           )}
-          <p>{note.description}</p>
           <div className="card-actions">
             {note.categories &&
               note.categories.map((cat) => (
@@ -103,7 +102,10 @@ const NoteSingle = () => {
                 </div>
               ))}
           </div>
-          {notesState.userData.token && (
+          <p>{note.description}</p>
+
+          {notesState.userData.token &&
+          note.ownerId === notesState.userData.user.id ? (
             <div className="card-actions justify-end">
               <Link className="btn btn-info" to={`/notes/edit/${note.id}`}>
                 edit
@@ -112,6 +114,8 @@ const NoteSingle = () => {
                 delete
               </button>
             </div>
+          ) : (
+            <p className="text-sm">You can NOT edit or delete this note because it is owned by an user (id: {note.ownerId}).</p>
           )}
         </div>
       </div>
