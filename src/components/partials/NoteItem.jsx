@@ -2,11 +2,7 @@ import { Link } from "react-router-dom";
 import { useNotes } from "../../context/notesContext";
 
 const NoteItem = ({ note }) => {
-  const { notesState, notesDispatch } = useNotes();
-
-  const toggleNote = (id) => {
-    notesDispatch({ type: "NOTE_TOGGLED", payload: id });
-  };
+  const { notesState } = useNotes();
 
   const noteOptions = notesState.categoryOptions;
 

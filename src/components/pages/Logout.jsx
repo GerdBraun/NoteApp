@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 
 const Logout = () => {
-  const { notesState, notesDispatch } = useNotes();
+  const { notesDispatch } = useNotes();
 
   useState(() => {
     localStorage.removeItem("userdata");

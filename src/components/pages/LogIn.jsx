@@ -4,7 +4,7 @@ import { useNotes } from "../../context/notesContext";
 import { toast } from "react-toastify";
 
 const LogIn = () => {
-  const { notesState, notesDispatch } = useNotes();
+  const {notesDispatch } = useNotes();
   const navigate = useNavigate();
 
   const [formState, setFormState] = useState({

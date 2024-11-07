@@ -5,7 +5,7 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 
 const AddNote = () => {
-  const { notesState, notesDispatch } = useNotes();
+  const { notesState} = useNotes();
   const [errors, setErrors] = useState({});
   const [categoryOptions, setCategoryOptions] = useState([]);
 

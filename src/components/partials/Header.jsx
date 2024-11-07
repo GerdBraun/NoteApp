@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useNotes } from "../../context/notesContext";
 
 const Header = () => {
-  const { notesState, notesDispatch } = useNotes();
+  const { notesState } = useNotes();
 
   return (
     <header className="navbar bg-base-100 shadow-lg">
