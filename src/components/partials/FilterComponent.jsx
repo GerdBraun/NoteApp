@@ -15,22 +15,23 @@ const FilterComponent = () => {
 
   return (
     <div className="mb-4 p-4 flex space-x-2 shadow-lg">
-         <button
-          key={0}
-          onClick={() => setFilterInView('all')}
-          className={`btn ${filter === 'all' ? "btn-active" : ""}`}
-        >
-          All
-        </button>
-     {categoryOptions && categoryOptions.map((category) => (
-        <button
-          key={category.id}
-          onClick={() => setFilterInView(category.id)}
-          className={`btn ${filter === category.value ? "btn-active" : ""}`}
-        >
-          {category.title}
-        </button>
-      ))}
+      <button
+        key={0}
+        onClick={() => setFilterInView("all")}
+        className={`btn ${filter === "all" ? "btn-active" : ""}`}
+      >
+        All
+      </button>
+      {categoryOptions &&
+        categoryOptions.map((category) => (
+          <button
+            key={category.id}
+            onClick={() => setFilterInView(category.id)}
+            className={`btn ${filter === category.value ? "btn-active" : ""}`}
+          >
+            {category.title}
+          </button>
+        ))}
     </div>
   );
 };

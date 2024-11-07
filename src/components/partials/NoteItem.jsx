@@ -16,6 +16,7 @@ const NoteItem = ({ note }) => {
       <div className="card bg-base-100 w-full shadow-xl h-full">
         <figure className="h-52">
           <img
+            className="w-full"
             src={note.image || "https://placehold.co/600x400"}
             alt={note.title}
           />

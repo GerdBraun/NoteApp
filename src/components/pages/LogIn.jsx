@@ -80,8 +80,8 @@ const LogIn = () => {
       <div className="form-control mt-4">
         <button className="btn">Log In</button>
       </div>
-      <div className="flex text-center">
-        <p className=" text-white">
+      <div className=" text-center">
+        <p className="text-center">
           Don&apos;t have an account?&nbsp;
           <Link to="/signup" className="link-hover">
             Sign up now!
