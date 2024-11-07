@@ -10,9 +10,6 @@ const NotesContextProvider = ({ children }) => {
     categoryOptions: null,
     userData: {},
   });
-  useEffect(() => {
-    //localStorage.setItem("notes", JSON.stringify(notesState.notes));
-  }, [notesState.notes]);
 
   useEffect(() => {
     loadData();
@@ -25,7 +22,6 @@ const NotesContextProvider = ({ children }) => {
     fetch(`${import.meta.env.VITE_API_SERVER}/notes`, {
       headers: {
         accept: "application/json",
-        // 'Authorization': `Bearer ${token}`
       },
     })
       .then((response) => response.json())
