@@ -1,7 +1,7 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useNotes } from "../../context/notesContext";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Logout = () => {
   const { notesDispatch } = useNotes();
