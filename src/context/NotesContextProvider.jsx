@@ -23,7 +23,7 @@ const NotesContextProvider = ({ children }) => {
 
   const loadData = () => {
     // fetch notes
-    fetch("http://localhost:3001/api/notes", {
+    fetch(`${import.meta.env.VITE_API_SERVER}/notes`, {
       headers: {
         accept: "application/json",
         // 'Authorization': `Bearer ${token}`
@@ -49,7 +49,7 @@ const NotesContextProvider = ({ children }) => {
       });
 
     // fetch categories
-    fetch("http://localhost:3001/api/categs", {
+    fetch(`${import.meta.env.VITE_API_SERVER}/categs`, {
       headers: {
         accept: "application/json",
       },

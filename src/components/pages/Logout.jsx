@@ -1,20 +1,22 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useNotes } from "../../context/notesContext";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Logout = () => {
   const { notesDispatch } = useNotes();
+  const navigate = useNavigate();
 
-  useState(() => {
+  useEffect(() => {
     localStorage.removeItem("userdata");
     notesDispatch({ type: "USER_LOGGED_IN", payload: {} });
     toast.success("Good Bye!", {
         toastId: "bye"
       });
+      navigate('/')
   }, []);
 
-  return <Navigate to="/" />;
+  return <></>;
 };
 
 export default Logout;

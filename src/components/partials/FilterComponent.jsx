@@ -1,16 +1,29 @@
 import { useEffect, useState } from "react";
 import { useNotes } from "../../context/notesContext";
+import { useSearchParams } from "react-router-dom";
 
 const FilterComponent = () => {
   const { notesState, notesDispatch } = useNotes();
   const { filter } = notesState;
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const setFilterInView = (filter) => {
     notesDispatch({ type: "FILTER_SET", payload: filter });
+    setSearchParams({filter:filter})
   };
 
   const [categoryOptions, setCategoryOptions] = useState([]);
   useEffect(() => {
     setCategoryOptions(notesState.categoryOptions);
+
+    const searchFilter = searchParams.get('filter')
+    const paramFilter = (!searchFilter || searchFilter==='all') ? 'all': parseInt(searchFilter);
+
+    setFilterInView(paramFilter);
+
+
+
   }, [notesState.categoryOptions]);
 
   return (
@@ -27,7 +40,7 @@ const FilterComponent = () => {
           <button
             key={category.id}
             onClick={() => setFilterInView(category.id)}
-            className={`btn ${filter === category.value ? "btn-active" : ""}`}
+            className={`btn ${filter === category.id ? "btn-active" : ""}`}
           >
             {category.title}
           </button>

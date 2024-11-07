@@ -20,7 +20,7 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3001/api/users", {
+    fetch(`${import.meta.env.VITE_API_SERVER}/users`, {
         method: "POST",
         headers: {
           accept: "application/json",
