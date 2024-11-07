@@ -1,14 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useNotes } from "../../context/notesContext";
 
 const NoteItem = ({ note }) => {
-  const { notesState } = useNotes();
+  const { notesState, notesDispatch } = useNotes();
 
   const noteOptions = notesState.categoryOptions;
 
   const getCategoryName = (id) => {
     if (!noteOptions) return;
     return noteOptions.find((cat) => cat.id === id).title;
+  };
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const setFilterInView = (filter) => {
+    notesDispatch({ type: "FILTER_SET", payload: filter });
+    setSearchParams({ filter: filter });
   };
 
   return (
@@ -39,9 +46,13 @@ const NoteItem = ({ note }) => {
             <div className="card-actions">
               {note.categories &&
                 note.categories.map((cat) => (
-                  <div key={cat} className="badge badge-outline">
+                  <button
+                    key={cat}
+                    className="badge badge-outline"
+                    onClick={() => setFilterInView(cat)}
+                  >
                     {getCategoryName(cat)}
-                  </div>
+                  </button>
                 ))}
             </div>
           </div>{" "}
