@@ -10,11 +10,15 @@ const NotesContextProvider = ({ children }) => {
     userData: {},
   });
   useEffect(() => {
-    localStorage.setItem("notes", JSON.stringify(notesState.notes));
+    //localStorage.setItem("notes", JSON.stringify(notesState.notes));
   }, [notesState.notes]);
 
   const [error, setError] = useState(null);
   useEffect(() => {
+    //loadData();
+  }, []);
+
+  const loadData = () => {
     // fetch notes
     fetch("http://localhost:3001/api/notes", {
       headers: {
@@ -25,7 +29,17 @@ const NotesContextProvider = ({ children }) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.results && Array.isArray(data.results)) {
-          notesDispatch({ type: "NOTES_LOADED", payload: data.results });
+          const list = data.results.map((note) => {
+            const cats =  (note.categories) ? JSON.parse(note.categories) : null;
+            return {
+            ...note,
+            categories: cats,
+          }});
+
+          console.log(list)
+
+          //notesDispatch({ type: "NOTES_LOADED", payload: data.results });
+          notesDispatch({ type: "NOTES_LOADED", payload: list });
         } else {
           console.error("Unexpected data format:", data);
           setError("Unexpected data format");
@@ -56,10 +70,10 @@ const NotesContextProvider = ({ children }) => {
         console.error("Error fetching data:", error);
         setError("Failed to fetch data");
       });
-  }, []);
+  };
 
   return (
-    <NotesContext.Provider value={{ notesState, notesDispatch }}>
+    <NotesContext.Provider value={{ notesState, notesDispatch, loadData }}>
       {children}
     </NotesContext.Provider>
   );

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useNotes } from "../../context/notesContext";
+import { toast } from "react-toastify";
 
 const LogIn = () => {
   const { notesState, notesDispatch } = useNotes();
@@ -34,11 +35,13 @@ const LogIn = () => {
       .then((data) => {
         if (data.error) {
           alert(data.error);
+          toast.error(`Error: "${data.error}"`);
           return;
         }
 
         //rememberToken(data.token);
         notesDispatch({ type: "USER_LOGGED_IN", payload: data });
+        toast.success(`Welcome back!`);
         navigate("/");
       })
       .catch((error) => console.error("Error fetching event details:", error));

@@ -8,6 +8,8 @@ const NoteItem = ({ note }) => {
     notesDispatch({ type: "NOTE_TOGGLED", payload: id });
   };
 
+  console.log(note.categories);
+
   return (
     <li className="flex items-center mb-2">
       <div className="card bg-base-100 w-full shadow-xl h-full">
