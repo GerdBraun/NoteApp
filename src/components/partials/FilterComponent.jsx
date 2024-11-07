@@ -28,7 +28,7 @@ const FilterComponent = () => {
           onClick={() => setFilterInView(category.id)}
           className={`btn ${filter === category.value ? "btn-active" : ""}`}
         >
-          {category.title} (id: {category.id})
+          {category.title}
         </button>
       ))}
     </div>

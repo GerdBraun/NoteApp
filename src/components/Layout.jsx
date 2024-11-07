@@ -13,7 +13,7 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
-      <ToastContainer position="bottom-right" />
+      <ToastContainer position="top-center" />
     </NotesContextProvider>
   );
 };

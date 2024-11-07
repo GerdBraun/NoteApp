@@ -10,6 +10,7 @@ import CategoryList from "./components/pages/CategoryList";
 import FilterComponent from "./components/partials/FilterComponent";
 import AddNote from "./components/pages/AddNote";
 import LogIn from "./components/pages/LogIn";
+import Logout from "./components/pages/Logout";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
       <Route path="/notes/add" element={<AddNote />} />
       <Route path="/categories" element={<CategoryList />} />
       <Route path="/login" element={<LogIn />} />
+      <Route path="/logout" element={<Logout />} />
       <Route path="/signup" element={<></>} />
     </Route>
   )

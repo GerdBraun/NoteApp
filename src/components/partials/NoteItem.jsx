@@ -2,13 +2,18 @@ import { Link } from "react-router-dom";
 import { useNotes } from "../../context/notesContext";
 
 const NoteItem = ({ note }) => {
-  const { notesDispatch } = useNotes();
+  const { notesState, notesDispatch } = useNotes();
 
   const toggleNote = (id) => {
     notesDispatch({ type: "NOTE_TOGGLED", payload: id });
   };
 
-  console.log(note.categories);
+  const noteOptions = notesState.categoryOptions;
+
+  const getCategoryName = (id) => {
+    if (!noteOptions) return;
+    return noteOptions.find((cat) => cat.id === id).title;
+  };
 
   return (
     <li className="flex items-center mb-2">
@@ -22,7 +27,11 @@ const NoteItem = ({ note }) => {
         <div className="card-body">
           <h2 className="card-title">
             {note.title}
-            {/* <div className="badge badge-secondary">NEW</div> */}
+            {note.urgency > 0 && (
+              <div className="badge badge-secondary">
+                Urgency: {note.urgency}
+              </div>
+            )}
           </h2>
           {note.date && (
             <p className="text-sm">
@@ -31,16 +40,10 @@ const NoteItem = ({ note }) => {
           )}
           <p>{note.description}</p>
           <div className="card-actions">
-            {/* <input
-              type="checkbox"
-              checked={note.completed}
-              onChange={() => toggleNote(note.id)}
-              className="mr-2"
-            /> */}
             {note.categories &&
               note.categories.map((cat) => (
                 <div key={cat} className="badge badge-outline">
-                  cat-id: {cat}
+                  {getCategoryName(cat)}
                 </div>
               ))}
           </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNotes } from "../../context/notesContext";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { toast } from "react-toastify";
 
@@ -10,6 +10,7 @@ const AddNote = () => {
   const [categoryOptions, setCategoryOptions] = useState([]);
 
   useEffect(() => {
+    if(!notesState.categoryOptions) return;
     const optionsTranslated = notesState.categoryOptions.map((option) => ({
       ...option,
       value: option.id,
@@ -20,6 +21,7 @@ const AddNote = () => {
 
   const [note, setNote] = useState({
     id: "",
+    urgency: "",
     title: "",
     image: "",
     description: "",
@@ -38,36 +40,23 @@ const AddNote = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-
     e.preventDefault();
 
-
     if (!validateForm()) {
-      toast.error('Form not valid!');
-      return
-    };
+      toast.error("Please check form!");
+      return;
+    }
 
     const categoriesToSave = note.categories
       ? JSON.stringify(note.categories.map((cat) => cat.id))
-      : '';
-    console.log(categoriesToSave);
-    const noteToSave = {
-      ...note,
-      categories: categoriesToSave,
-    };
+      : "";
+
+      
     //notesDispatch({ type: "NOTE_ADDED", payload: noteToSave });
 
-    console.log(notesState.userData.token);
+    const { title, urgency, image, description, date } = note;
 
-    const { title, image, description, date } = note;
-
-    console.log({
-      title,
-      image,
-      description,
-      date,
-      categories: categoriesToSave,
-    });
+    const urgencyNumber = urgency ? parseInt(urgency) : 0;
 
     fetch("http://localhost:3001/api/notes", {
       method: "POST",
@@ -78,6 +67,7 @@ const AddNote = () => {
       },
       body: JSON.stringify({
         title,
+        urgency: urgencyNumber,
         image,
         description,
         date,
@@ -86,8 +76,7 @@ const AddNote = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Note created:", data);
-        if(data.error){
+        if (data.error) {
           toast.error(`API error: "${data.error}"`);
           return;
         }
@@ -104,6 +93,10 @@ const AddNote = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
+  if(!notesState.userData.token){
+    return <Navigate to="/login" />
+  }
 
   return (
     <>
@@ -123,6 +116,24 @@ const AddNote = () => {
             onChange={handleChange}
           />
           {errors.title && <p className="text-red-500">{errors.title}</p>}
+        </div>
+
+        <div className="form-control">
+          <label className="label">Urgency</label>
+          <select
+            name="urgency"
+            className="select select-bordered w-full"
+            onChange={handleChange}
+            value={note.urgency}
+          >
+            <option>0</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+          {errors.image && <p className="text-red-500">{errors.image}</p>}
         </div>
 
         <div className="form-control">

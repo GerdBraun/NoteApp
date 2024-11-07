@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import notesReducer from "./notesReducer";
 import { NotesContext } from "./notesContext";
+import { toast } from "react-toastify";
 
 const NotesContextProvider = ({ children }) => {
   const [notesState, notesDispatch] = useReducer(notesReducer, {
@@ -15,7 +16,9 @@ const NotesContextProvider = ({ children }) => {
 
   const [error, setError] = useState(null);
   useEffect(() => {
-    //loadData();
+    loadData();
+    const userData = JSON.parse(localStorage.getItem('userdata')) || {};
+    notesDispatch({ type: "USER_LOGGED_IN", payload: userData });
   }, []);
 
   const loadData = () => {
@@ -36,25 +39,19 @@ const NotesContextProvider = ({ children }) => {
             categories: cats,
           }});
 
-          console.log(list)
-
-          //notesDispatch({ type: "NOTES_LOADED", payload: data.results });
           notesDispatch({ type: "NOTES_LOADED", payload: list });
         } else {
-          console.error("Unexpected data format:", data);
-          setError("Unexpected data format");
+          toast.error("Unexpected data format:", data);
         }
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
-        setError("Failed to fetch data");
+        toast.error("Error fetching data:", error);
       });
 
     // fetch categories
     fetch("http://localhost:3001/api/categs", {
       headers: {
         accept: "application/json",
-        // 'Authorization': `Bearer ${token}`
       },
     })
       .then((response) => response.json())

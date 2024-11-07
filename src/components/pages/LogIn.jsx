@@ -38,8 +38,8 @@ const LogIn = () => {
           toast.error(`Error: "${data.error}"`);
           return;
         }
+        localStorage.setItem("userdata", JSON.stringify(data));
 
-        //rememberToken(data.token);
         notesDispatch({ type: "USER_LOGGED_IN", payload: data });
         toast.success(`Welcome back!`);
         navigate("/");
