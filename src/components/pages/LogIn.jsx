@@ -20,7 +20,7 @@ const LogIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:3001/api/auth/login", {
+    fetch(`${import.meta.env.VITE_API_SERVER}/auth/login`, {
       method: "POST",
       headers: {
         accept: "application/json",

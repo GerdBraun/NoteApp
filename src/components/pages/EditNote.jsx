@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { toast } from "react-toastify";
 
-const AddNote = () => {
+const EditNote = () => {
   const { notesState} = useNotes();
   const [errors, setErrors] = useState({});
   const [categoryOptions, setCategoryOptions] = useState([]);
@@ -50,10 +50,6 @@ const AddNote = () => {
     const categoriesToSave = note.categories
       ? JSON.stringify(note.categories.map((cat) => cat.id))
       : "";
-
-      
-    //notesDispatch({ type: "NOTE_ADDED", payload: noteToSave });
-
     const { title, urgency, image, description, date } = note;
 
     const urgencyNumber = urgency ? parseInt(urgency) : 0;
@@ -104,7 +100,7 @@ const AddNote = () => {
         onSubmit={handleSubmit}
         className="card text-black w-full max-w-xl mx-auto shadow-xl p-4 m-4"
       >
-        <h2 className="text-2xl text-center text-blue-600">Add New Note</h2>
+        <h2 className="text-2xl text-center text-blue-600">Edit Note</h2>
 
         <div className="form-control">
           <label className="label">Title</label>
@@ -186,11 +182,11 @@ const AddNote = () => {
           />
         </div>
         <button className="btn mt-4" type="submit">
-          Add Note
+          Save Note
         </button>
       </form>
     </>
   );
 };
 
-export default AddNote;
+export default EditNote;

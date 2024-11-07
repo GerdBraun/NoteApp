@@ -30,7 +30,7 @@ const NoteItem = ({ note }) => {
         </figure>
         <div className="card-body flex flex-col justify-between">
           <div>
-            <h2 className="card-title">
+            <h2 className="card-title mb-4">
               {note.title}
               {note.urgency > 0 && (
                 <div className="badge badge-secondary">
@@ -39,7 +39,7 @@ const NoteItem = ({ note }) => {
               )}
             </h2>
             {note.date && (
-              <p className="text-sm">
+              <p className="text-sm mb-4">
                 {new Date(note.date).toLocaleDateString()}
               </p>
             )}

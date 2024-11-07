@@ -13,6 +13,7 @@ import LogIn from "./components/pages/LogIn";
 import Logout from "./components/pages/Logout";
 import SignUp from "./components/pages/SignUp";
 import NoteSingle from "./components/pages/NoteSingle";
+import EditNote from "./components/pages/EditNote";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,8 +22,6 @@ const router = createBrowserRouter(
         index
         element={
           <>
-            {/* <DataFetchingUseReducer /> */}
-            {/* <AddNote /> */}
             <FilterComponent />
             <NotesList />
           </>
@@ -30,7 +29,7 @@ const router = createBrowserRouter(
       />
       <Route path="/notes/:id" element={<NoteSingle />} />
       <Route path="/notes/add" element={<AddNote />} />
-      <Route path="/notes/edit/:id" element={<AddNote />} />
+      <Route path="/notes/edit/:id" element={<EditNote />} />
       <Route path="/notes/delete/:id" element={<></>} />
       <Route path="/categories" element={<CategoryList />} />
       <Route path="/login" element={<LogIn />} />

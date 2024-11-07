@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import NoteItem from "../partials/NoteItem";
 import { toast } from "react-toastify";
 import { useNotes } from "../../context/notesContext";
 
@@ -11,7 +10,7 @@ const NoteSingle = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/notes/${id}`)
+    fetch(`${import.meta.env.VITE_API_SERVER}/notes/${id}`)
       .then((response) => response.json())
       .then((data) => {
         if (data) {
@@ -38,7 +37,7 @@ const NoteSingle = () => {
       return;
     }
     if (window.confirm("Are you sure you want to delete this event?")) {
-      fetch(`http://localhost:3001/api/notes/${id}`, {
+      fetch(`${import.meta.env.VITE_API_SERVER}/notes/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${notesState.userData.token}`,
@@ -81,7 +80,7 @@ const NoteSingle = () => {
           />
         </figure>
         <div className="card-body">
-          <h2 className="card-title">
+          <h2 className="card-title mb-4">
             {note.title}
             {note.urgency > 0 && (
               <div className="badge badge-secondary">
@@ -90,16 +89,20 @@ const NoteSingle = () => {
             )}
           </h2>
           {note.date && (
-            <p className="text-sm">
+            <p className="text-sm mb-4">
               {new Date(note.date).toLocaleDateString()}
             </p>
           )}
           <div className="card-actions">
             {note.categories &&
               note.categories.map((cat) => (
-                <div key={cat} className="badge badge-outline">
+                <Link
+                  key={cat}
+                  className="badge badge-outline"
+                  to={`/?filter=${cat}`}
+                >
                   {getCategoryName(cat)}
-                </div>
+                </Link>
               ))}
           </div>
           <p>{note.description}</p>
@@ -107,15 +110,24 @@ const NoteSingle = () => {
           {notesState.userData.token &&
           note.ownerId === notesState.userData.user.id ? (
             <div className="card-actions justify-end">
-              <Link className="btn btn-info" to={`/notes/edit/${note.id}`}>
+              <Link
+                className="btn btn-info text-white"
+                to={`/notes/edit/${note.id}`}
+              >
                 edit
               </Link>
-              <button className="btn btn-error" onClick={handleDelete}>
+              <button
+                className="btn btn-error text-white"
+                onClick={handleDelete}
+              >
                 delete
               </button>
             </div>
           ) : (
-            <p className="text-sm">You can NOT edit or delete this note because it is owned by an user (id: {note.ownerId}).</p>
+            <p className="text-sm">
+              You can NOT edit or delete this note because it is owned by an
+              user (id: {note.ownerId}).
+            </p>
           )}
         </div>
       </div>
