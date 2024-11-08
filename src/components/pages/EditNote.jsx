@@ -1,23 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNotes } from "../../context/notesContext";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import { toast } from "react-toastify";
 
 const EditNote = () => {
-  const { notesState} = useNotes();
+  const { notesState } = useNotes();
   const [errors, setErrors] = useState({});
   const [categoryOptions, setCategoryOptions] = useState([]);
-
-  useEffect(() => {
-    if(!notesState.categoryOptions) return;
-    const optionsTranslated = notesState.categoryOptions.map((option) => ({
-      ...option,
-      value: option.id,
-      label: option.title,
-    }));
-    setCategoryOptions(optionsTranslated);
-  }, [notesState.categoryOptions]);
+  const { id } = useParams();
 
   const [note, setNote] = useState({
     id: "",
@@ -26,8 +17,61 @@ const EditNote = () => {
     image: "",
     description: "",
     date: "",
-    categories: "",
+    loaded: false
   });
+
+  useEffect(() => {
+    if (!notesState.categoryOptions) return;
+    const optionsTranslated = notesState.categoryOptions.map((option) => ({
+      ...option,
+      value: option.id,
+      label: option.title,
+    }));
+    setCategoryOptions(optionsTranslated);
+  }, []);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_SERVER}/notes/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          const newData = {
+            ...data,
+            categories: [],
+            categoriesRaw: JSON.parse(data.categories),
+            loaded: true,
+          };
+          setNote(newData);
+        } else {
+          toast.error(`Note with id ${id} not found`);
+        }
+      })
+      .catch((error) => {
+        toast.error(`Error fetching note details: ${error}`);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    if (!note.categoriesRaw || !notesState.categoryOptions) return;
+    const selectedValues = notesState.categoryOptions
+      .filter((val) => {
+        return note.categoriesRaw.includes(val.id);
+      })
+      .map((cat) => {
+        return {
+          value: cat.id + "",
+          label: cat.title,
+        };
+      });
+
+    //setSelectedCategories(selectedValues);
+    if (selectedValues && selectedValues.length >0) {
+      setNote((prev) => ({ ...prev, 
+        categories: selectedValues
+      }))
+    }
+  }, [note.loaded]);
+
   const handleMultiChange = (options) => {
     setNote({ ...note, categories: options });
   };
@@ -41,7 +85,6 @@ const EditNote = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!validateForm()) {
       toast.error("Please check form!");
       return;
@@ -54,7 +97,7 @@ const EditNote = () => {
 
     const urgencyNumber = urgency ? parseInt(urgency) : 0;
 
-    fetch(`${import.meta.env.VITE_API_SERVER}/notes`, {
+    fetch(`${import.meta.env.VITE_API_SERVER}/notes/${id}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -90,8 +133,8 @@ const EditNote = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  if(!notesState.userData.token){
-    return <Navigate to="/login" />
+  if (!notesState.userData.token) {
+    return <Navigate to="/login" />;
   }
 
   return (
@@ -175,6 +218,7 @@ const EditNote = () => {
           <Select
             isMulti
             name="categories"
+            value={note.categories}
             options={categoryOptions}
             className="basic-multi-select"
             classNamePrefix="select"
