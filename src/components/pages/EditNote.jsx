@@ -17,7 +17,7 @@ const EditNote = () => {
     image: "",
     description: "",
     date: "",
-    loaded: false
+    loaded: false,
   });
 
   useEffect(() => {
@@ -35,10 +35,10 @@ const EditNote = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data) {
-          const convertedDate = (data.date) ? data.date.split('.')[0]: '';
+          const convertedDate = data.date ? data.date.split(".")[0] : "";
           const newData = {
             ...data,
-            date:convertedDate,
+            date: convertedDate,
             categories: [],
             categoriesRaw: JSON.parse(data.categories),
             loaded: true,
@@ -68,11 +68,8 @@ const EditNote = () => {
         };
       });
 
-    //setSelectedCategories(selectedValues);
-    if (selectedValues && selectedValues.length >0) {
-      setNote((prev) => ({ ...prev, 
-        categories: selectedValues
-      }))
+    if (selectedValues && selectedValues.length > 0) {
+      setNote((prev) => ({ ...prev, categories: selectedValues }));
     }
   }, [notesState.categoryOptions]);
 
@@ -90,9 +87,6 @@ const EditNote = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-console.log(note.date)
-return
-
     if (!validateForm()) {
       toast.error("Please check form!");
       return;
@@ -105,8 +99,19 @@ return
 
     const urgencyNumber = urgency ? parseInt(urgency) : 0;
 
+
+    console.log(JSON.stringify({
+      title,
+      urgency: urgencyNumber,
+      image,
+      description,
+      date,
+      categories: categoriesToSave,
+    }))
+
+
     fetch(`${import.meta.env.VITE_API_SERVER}/notes/${id}`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${notesState.userData.token}`,
@@ -127,10 +132,10 @@ return
           toast.error(`API error: "${data.error}"`);
           return;
         }
-        toast.success(`Note created "${note.title}"`);
+        toast.success(`Note updated "${note.title}"`);
         navigate("/");
       })
-      .catch((error) => console.error("Error creating event:", error));
+      .catch((error) => console.error("Error updating note:", error));
   };
 
   const validateForm = () => {

@@ -51,6 +51,7 @@ const NotesContextProvider = ({ children }) => {
   };
 
   const loadCategories = () => {
+    //if(notesState.categoriesLoaded) return;
     // fetch categories
     fetch(`${import.meta.env.VITE_API_SERVER}/categs`, {
       headers: {

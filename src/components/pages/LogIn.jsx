@@ -44,7 +44,7 @@ const LogIn = () => {
         toast.success(`Welcome back!`);
         navigate("/");
       })
-      .catch((error) => console.error("Error fetching event details:", error));
+      .catch((error) => console.error("Error fetching login details:", error));
   };
 
   return (
