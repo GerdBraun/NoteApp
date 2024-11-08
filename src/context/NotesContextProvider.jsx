@@ -18,6 +18,11 @@ const NotesContextProvider = ({ children }) => {
   }, []);
 
   const loadData = () => {
+    loadNotes();
+    loadCategories();
+  };
+
+  const loadNotes = () => {
     // fetch notes
     fetch(`${import.meta.env.VITE_API_SERVER}/notes`, {
       headers: {
@@ -43,7 +48,9 @@ const NotesContextProvider = ({ children }) => {
       .catch((error) => {
         toast.error("Error fetching data:", error);
       });
+  };
 
+  const loadCategories = () => {
     // fetch categories
     fetch(`${import.meta.env.VITE_API_SERVER}/categs`, {
       headers: {
@@ -64,7 +71,7 @@ const NotesContextProvider = ({ children }) => {
   };
 
   return (
-    <NotesContext.Provider value={{ notesState, notesDispatch, loadData }}>
+    <NotesContext.Provider value={{ notesState, notesDispatch, loadData, loadNotes, loadCategories }}>
       {children}
     </NotesContext.Provider>
   );

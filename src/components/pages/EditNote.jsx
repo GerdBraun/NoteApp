@@ -5,7 +5,7 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 
 const EditNote = () => {
-  const { notesState } = useNotes();
+  const { notesState, loadCategories } = useNotes();
   const [errors, setErrors] = useState({});
   const [categoryOptions, setCategoryOptions] = useState([]);
   const { id } = useParams();
@@ -28,20 +28,24 @@ const EditNote = () => {
       label: option.title,
     }));
     setCategoryOptions(optionsTranslated);
-  }, []);
+  }, [notesState.categoryOptions]);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_SERVER}/notes/${id}`)
       .then((response) => response.json())
       .then((data) => {
         if (data) {
+          const convertedDate = (data.date) ? data.date.split('.')[0]: '';
           const newData = {
             ...data,
+            date:convertedDate,
             categories: [],
             categoriesRaw: JSON.parse(data.categories),
             loaded: true,
           };
           setNote(newData);
+
+          loadCategories();
         } else {
           toast.error(`Note with id ${id} not found`);
         }
@@ -70,7 +74,7 @@ const EditNote = () => {
         categories: selectedValues
       }))
     }
-  }, [note.loaded]);
+  }, [notesState.categoryOptions]);
 
   const handleMultiChange = (options) => {
     setNote({ ...note, categories: options });
@@ -85,6 +89,10 @@ const EditNote = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+console.log(note.date)
+return
+
     if (!validateForm()) {
       toast.error("Please check form!");
       return;
