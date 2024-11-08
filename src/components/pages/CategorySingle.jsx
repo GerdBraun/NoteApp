@@ -8,15 +8,16 @@ const CategorySingle = ({ category }) => {
         <div className="card-body">
           <h2 className="card-title">{category.title}</h2>
           <p className="">
-               {category.description}.
-              </p>
+            <h3 className="font-bold">Description</h3>
+            {category.description}
+          </p>
           <div className="card-actions justify-end">
             {category.ownerId === notesState.userData.user.id ? (
               <button className="btn btn-primary">edit</button>
             ) : (
-              <p className="text-sm">
-                You can NOT edit or delete this category because it is owned by an
-                user (id: {category.ownerId}).
+              <p className="text-xs">
+                You can NOT edit or delete this category because it is owned by
+                an user (id: {category.ownerId}).
               </p>
             )}
           </div>

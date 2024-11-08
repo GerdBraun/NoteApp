@@ -124,7 +124,7 @@ const NoteSingle = () => {
               </button>
             </div>
           ) : (
-            <p className="text-sm">
+            <p className="text-xs">
               You can NOT edit or delete this note because it is owned by an
               user (id: {note.ownerId}).
             </p>
