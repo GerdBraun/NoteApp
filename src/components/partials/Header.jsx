@@ -18,7 +18,7 @@ const Header = () => {
           </li>
           {notesState.userData.token && (
             <li>
-              <NavLink to="/notes/add">note add</NavLink>
+              <NavLink to="/notes/add">add note</NavLink>
             </li>
           )}
           {notesState.userData.token && (
