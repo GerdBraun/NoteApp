@@ -6,6 +6,8 @@ const NoteItem = ({ note }) => {
 
   const noteOptions = notesState.categoryOptions;
 
+  console.log(note)
+
   const getCategoryName = (id) => {
     if (!noteOptions) return;
     return noteOptions.find((cat) => cat.id === id).title;

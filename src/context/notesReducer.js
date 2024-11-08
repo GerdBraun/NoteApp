@@ -11,6 +11,7 @@ const notesReducer = (state, action) => {
      return {
         ...state,
         categoryOptions: action.payload,
+        categoriesLoaded: true,
       };
     }
 

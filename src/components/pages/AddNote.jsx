@@ -83,7 +83,7 @@ const AddNote = () => {
         toast.success(`Note created "${note.title}"`);
         navigate("/");
       })
-      .catch((error) => console.error("Error creating event:", error));
+      .catch((error) => toast.error(`Error creating note: "${error}"`));
   };
 
   const validateForm = () => {

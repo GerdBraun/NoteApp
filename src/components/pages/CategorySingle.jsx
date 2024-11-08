@@ -7,10 +7,8 @@ const CategorySingle = ({ category }) => {
       <div className="card bg-base-100 w-full h-full shadow-xl">
         <div className="card-body">
           <h2 className="card-title">{category.title}</h2>
-          <p className="">
-            <h3 className="font-bold">Description</h3>
-            {category.description}
-          </p>
+          <h3 className="font-bold">Description</h3>
+          <p className="">{category.description}</p>
           <div className="card-actions justify-end">
             {category.ownerId === notesState.userData.user.id ? (
               <button className="btn btn-primary">edit</button>

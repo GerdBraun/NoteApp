@@ -1,23 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNotes } from "../../context/notesContext";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import { toast } from "react-toastify";
 
 const EditNote = () => {
-  const { notesState} = useNotes();
+  const { notesState, loadCategories } = useNotes();
   const [errors, setErrors] = useState({});
   const [categoryOptions, setCategoryOptions] = useState([]);
-
-  useEffect(() => {
-    if(!notesState.categoryOptions) return;
-    const optionsTranslated = notesState.categoryOptions.map((option) => ({
-      ...option,
-      value: option.id,
-      label: option.title,
-    }));
-    setCategoryOptions(optionsTranslated);
-  }, [notesState.categoryOptions]);
+  const { id } = useParams();
 
   const [note, setNote] = useState({
     id: "",
@@ -26,8 +17,62 @@ const EditNote = () => {
     image: "",
     description: "",
     date: "",
-    categories: "",
+    loaded: false,
   });
+
+  useEffect(() => {
+    if (!notesState.categoryOptions) return;
+    const optionsTranslated = notesState.categoryOptions.map((option) => ({
+      ...option,
+      value: option.id,
+      label: option.title,
+    }));
+    setCategoryOptions(optionsTranslated);
+  }, [notesState.categoryOptions]);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_SERVER}/notes/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          const convertedDate = data.date ? data.date.split(".")[0] : "";
+          const newData = {
+            ...data,
+            date: convertedDate,
+            categories: [],
+            categoriesRaw: JSON.parse(data.categories),
+            loaded: true,
+          };
+          setNote(newData);
+
+          loadCategories();
+        } else {
+          toast.error(`Note with id ${id} not found`);
+        }
+      })
+      .catch((error) => {
+        toast.error(`Error fetching note details: ${error}`);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    if (!note.categoriesRaw || !notesState.categoryOptions) return;
+    const selectedValues = notesState.categoryOptions
+      .filter((val) => {
+        return note.categoriesRaw.includes(val.id);
+      })
+      .map((cat) => {
+        return {
+          value: cat.id + "",
+          label: cat.title,
+        };
+      });
+
+    if (selectedValues && selectedValues.length > 0) {
+      setNote((prev) => ({ ...prev, categories: selectedValues }));
+    }
+  }, [notesState.categoryOptions]);
+
   const handleMultiChange = (options) => {
     setNote({ ...note, categories: options });
   };
@@ -54,8 +99,19 @@ const EditNote = () => {
 
     const urgencyNumber = urgency ? parseInt(urgency) : 0;
 
-    fetch(`${import.meta.env.VITE_API_SERVER}/notes`, {
-      method: "POST",
+
+    console.log(JSON.stringify({
+      title,
+      urgency: urgencyNumber,
+      image,
+      description,
+      date,
+      categories: categoriesToSave,
+    }))
+
+
+    fetch(`${import.meta.env.VITE_API_SERVER}/notes/${id}`, {
+      method: "PUT",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${notesState.userData.token}`,
@@ -76,10 +132,10 @@ const EditNote = () => {
           toast.error(`API error: "${data.error}"`);
           return;
         }
-        toast.success(`Note created "${note.title}"`);
+        toast.success(`Note updated "${note.title}"`);
         navigate("/");
       })
-      .catch((error) => console.error("Error creating event:", error));
+      .catch((error) => console.error("Error updating note:", error));
   };
 
   const validateForm = () => {
@@ -90,8 +146,8 @@ const EditNote = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  if(!notesState.userData.token){
-    return <Navigate to="/login" />
+  if (!notesState.userData.token) {
+    return <Navigate to="/login" />;
   }
 
   return (
@@ -175,6 +231,7 @@ const EditNote = () => {
           <Select
             isMulti
             name="categories"
+            value={note.categories}
             options={categoryOptions}
             className="basic-multi-select"
             classNamePrefix="select"
